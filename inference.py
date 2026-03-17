@@ -142,6 +142,7 @@ def main():
     args = parser.parse_args()
     print(args)
     load_type = 'auto'
+    bnb_compute_dtype = torch.float16
     if args.tokenizer_path is None:
         args.tokenizer_path = args.base_model
 
@@ -157,7 +158,7 @@ def main():
     elif args.load_in_4bit:
         config_kwargs['quantization_config'] = BitsAndBytesConfig(
             load_in_4bit=True,
-            bnb_4bit_compute_dtype=load_type,
+            bnb_4bit_compute_dtype=bnb_compute_dtype,
         )
     base_model = AutoModelForCausalLM.from_pretrained(args.base_model, **config_kwargs)
     try:
